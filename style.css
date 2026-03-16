@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.calculator {
+    width: 400px;
+    height: 700px;
+    padding: 10px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.display {
+    flex: 2;
+    border: 2px solid whitesmoke;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    font-size: 80px;
+    box-sizing: border-box;
+    padding: 10px;
+
+
+}
+
+.inputboard {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 5;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid whitesmoke;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-content: space-around;
+    container-type: inline-size;
+}
+
+.input {
+    width: calc(25% - 15px);
+    aspect-ratio: 1 / 1;
+    border: 2px solid black;
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+
+}
+
+.zero {
+    width: calc(50% - 15px);
+    height: calc(25cqw - 15px);
+    border-radius: 999px;
+}
+
+
+
+
+
+
+
+
+.changeColor {
+    transition: all 0.3s ease;
+}
+
+.changeColor:hover {
+    background-color: gray;
+    cursor: pointer;
+}

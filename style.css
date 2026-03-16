@@ -9,7 +9,6 @@ body {
     width: 400px;
     height: 700px;
     padding: 10px;
-    border: 2px solid black;
     display: flex;
     flex-direction: column;
     gap: 5px;

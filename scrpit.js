@@ -1,6 +1,30 @@
 const buttons = document.querySelectorAll('.input')
-buttons.forEach(button => button.classList.add('changeColor'))
+const display = document.querySelector('.display')
+const numberButtons = document.querySelectorAll('.number')
+const operatorButtons = document.querySelectorAll('.operator')
+const clearButton = document.querySelector('.clearButton')
 
+numberButtons.forEach(button => button.addEventListener('click', function(e) {
+    if(display.textContent === '0') {
+        display.textContent = '';
+        display.textContent = e.target.textContent;
+    }else {
+        display.textContent += e.target.textContent
+    }
+}))
+
+operatorButtons.forEach(button => button.addEventListener('click', function(e) {
+     display.textContent += e.target.textContent
+}))
+
+clearButton.addEventListener('click', function(e) {
+    display.textContent = '0'
+})
+display.textContent = '0'
+
+
+
+buttons.forEach(button => button.classList.add('changeColor'))
 
 
 

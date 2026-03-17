@@ -18,14 +18,32 @@ body {
     flex: 2;
     border: 2px solid whitesmoke;
     display: flex;
+    flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: center;
+    gap: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    font-size: 80px;
+    font-size: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     box-sizing: border-box;
     padding: 10px;
+    container-type: inline-size;
 
 
+}
+
+#display {
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 50px;
+    height: 100px;
+    width: 100cqw;
+    border: 3px solid blue;
+    border-radius: 8px;
+}
+
+#display:focus {
+    outline: none;
 }
 
 .inputboard {

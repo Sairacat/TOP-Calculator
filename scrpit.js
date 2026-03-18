@@ -9,55 +9,79 @@ const percentButton = document.querySelector('.percent')
 const operatorArray = ['+', '-', '*', '/', '.']
 
 let isCalculated = false
-let operator
-let num1
-let num2
+let operator = ''
+let num1 = ''
+let num2 = ''
 
 numberButtons.forEach(button => button.addEventListener('click', function(e) {
-    if(display.value === '0') {
-        display.value = e.target.textContent;
-    }else {
-        if(isCalculated) {
-            display.value = e.target.textContent
-            isCalculated = false
+    let inputnNumber = e.target.textContent
+    if(num1 === '' || num1 === '-') {
+        if(display.value === '0') {
+          display.value = e.target.textContent
+          num1 += inputnNumber
         }else {
+          if(isCalculated) {
+            display.value = e.target.textContent
+            num1 += inputnNumber
+            isCalculated = false
+          }else {
             display.value += e.target.textContent
+            num1 += inputnNumber
+        }
+     
+    }
+   }else {
+    if(num2 === '' || num2 === '-') {
+        display.value = e.target.textContent
+        num2 += inputnNumber
+    }else {
+        display.value += e.target.textContent
+        num2 += inputnNumber
+    }
+   }
+
+}))
+
+operatorButtons.forEach(button => button.addEventListener('click', function(e) {
+    let inputOperator = e.target.textContent
+    if(num1 === '') {
+        if(inputOperator === '-') {
+            display.value = e.target.textContent
+            num1 += inputOperator
+            isCalculated = false
+        }else return
+    }else {
+        if(operator === '') {
+            operator += inputOperator
+        }else {
+            if(num2 === '') {
+                if(inputOperator === '-') {
+                    display.value = e.target.textContent
+                    num2 += inputOperator
+                }
+            }
         }
     }
 }))
 
-operatorButtons.forEach(button => button.addEventListener('click', function(e) {
-    let currentValue = display.value
-    let lastChar = currentValue.slice(-1)
-    const currentArray = currentValue.split(/([\*\/\+-])/).filter(Boolean)
-    if(operatorArray.includes(lastChar)) {
-        return
-    }
-    if(currentArray.length === 3) {
-        operator = currentArray[1]
-        num1 = Number(currentArray[0])
-        num2 = Number(currentArray[2])
-        let result = operate(operator, num1, num2)
-        display.value = parseFloat(result.toFixed(6)).toString() 
-    }
-     display.value += e.target.textContent
-     isCalculated = false
-}))
-
 clearButton.addEventListener('click', function(e) {
     display.value = '0'
+    operator = ''
+    num1 = ''
+    num2 = ''
+    isCalculated = false
 })
 
 buttons.forEach(button => button.classList.add('changeColor'))
 
 equalButton.addEventListener('click', () => {
-    let currentValue = display.value
-    const currentArray = currentValue.split(/([\*\/\+-])/)
-    operator = currentArray[1]
-    num1 = Number(currentArray[0])
-    num2 = Number(currentArray[2])
-    let result = operate(operator,num1,num2)
+    let firstNum = Number(num1)
+    let secondNum = Number(num2)
+    let result = operate(operator,firstNum,secondNum)
     display.value = parseFloat(result.toFixed(6)).toString()
+    operator = ''
+    num1 = ''
+    num2 = ''
     isCalculated = true
 })
 

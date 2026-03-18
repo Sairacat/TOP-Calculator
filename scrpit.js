@@ -5,6 +5,8 @@ const operatorButtons = document.querySelectorAll('.operator')
 const clearButton = document.querySelector('.clearButton')
 const equalButton = document.querySelector('.equal')
 const decimalButton = document.querySelector('.decimal')
+const percentButton = document.querySelector('.percent')
+const operatorArray = ['+', '-', '*', '/', '.']
 
 let isCalculated = false
 let operator
@@ -27,17 +29,16 @@ numberButtons.forEach(button => button.addEventListener('click', function(e) {
 operatorButtons.forEach(button => button.addEventListener('click', function(e) {
     let currentValue = display.value
     let lastChar = currentValue.slice(-1)
-    const operator = ['+', '-', '*', '/']
     const currentArray = currentValue.split(/([\*\/\+-])/).filter(Boolean)
-    if(operator.includes(lastChar)) {
+    if(operatorArray.includes(lastChar)) {
         return
     }
     if(currentArray.length === 3) {
-        operator1 = currentArray[1]
+        operator = currentArray[1]
         num1 = Number(currentArray[0])
         num2 = Number(currentArray[2])
-        let result = operate(operator1, num1, num2)
-        display.value = result.toFixed(6)   
+        let result = operate(operator, num1, num2)
+        display.value = parseFloat(result.toFixed(6)).toString() 
     }
      display.value += e.target.textContent
      isCalculated = false
@@ -56,19 +57,14 @@ equalButton.addEventListener('click', () => {
     num1 = Number(currentArray[0])
     num2 = Number(currentArray[2])
     let result = operate(operator,num1,num2)
-    display.value = result.toFixed(6)
+    display.value = parseFloat(result.toFixed(6)).toString()
     isCalculated = true
 })
 
 decimalButton.addEventListener('click', function(e) {
     let currentValue = display.value
     let lastChar = currentValue.slice(-1)
-    const operator = ['+', '-', '*', '/']
-
-    if(lastChar === '.') {
-        return
-    }
-    if(operator.includes(lastChar)) {
+    if(operatorArray.includes(lastChar)) {
         return
     }
     if(isCalculated) {
@@ -77,6 +73,21 @@ decimalButton.addEventListener('click', function(e) {
     display.value += e.target.textContent
 })
 
+percentButton.addEventListener('click', function(e) {
+    let currentValue = display.value
+    let lastChar = currentValue.slice(-1)
+    const currentArray = currentValue.split(/([\*\/\+-])/)
+    if(operatorArray.includes(lastChar)) {
+        return
+    }
+    if(currentArray.length === 3) {
+        return
+    }
+    num1 = Number(currentValue)
+    let result = num1 / 100
+    display.value = parseFloat(result.toFixed(6)).toString()
+    isCalculated = true
+})
 
 
 

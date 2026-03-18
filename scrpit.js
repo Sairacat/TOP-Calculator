@@ -4,6 +4,7 @@ const numberButtons = document.querySelectorAll('.number')
 const operatorButtons = document.querySelectorAll('.operator')
 const clearButton = document.querySelector('.clearButton')
 const equalButton = document.querySelector('.equal')
+const decimalButton = document.querySelector('.decimal')
 
 let isCalculated = false
 let operator
@@ -27,8 +28,16 @@ operatorButtons.forEach(button => button.addEventListener('click', function(e) {
     let currentValue = display.value
     let lastChar = currentValue.slice(-1)
     const operator = ['+', '-', '*', '/']
+    const currentArray = currentValue.split(/([\*\/\+-])/).filter(Boolean)
     if(operator.includes(lastChar)) {
         return
+    }
+    if(currentArray.length === 3) {
+        operator1 = currentArray[1]
+        num1 = Number(currentArray[0])
+        num2 = Number(currentArray[2])
+        let result = operate(operator1, num1, num2)
+        display.value = result.toFixed(6)   
     }
      display.value += e.target.textContent
      isCalculated = false
@@ -47,8 +56,25 @@ equalButton.addEventListener('click', () => {
     num1 = Number(currentArray[0])
     num2 = Number(currentArray[2])
     let result = operate(operator,num1,num2)
-    display.value = result.toString()
+    display.value = result.toFixed(6)
     isCalculated = true
+})
+
+decimalButton.addEventListener('click', function(e) {
+    let currentValue = display.value
+    let lastChar = currentValue.slice(-1)
+    const operator = ['+', '-', '*', '/']
+
+    if(lastChar === '.') {
+        return
+    }
+    if(operator.includes(lastChar)) {
+        return
+    }
+    if(isCalculated) {
+        return
+    }
+    display.value += e.target.textContent
 })
 
 

@@ -15,7 +15,13 @@ let num2 = ''
 
 numberButtons.forEach(button => button.addEventListener('click', function(e) {
     let inputnNumber = e.target.textContent
-    if(num1 === '' || num1 === '-') {
+    let isNum2 = false
+    if(operator !== '' && num1 !== '') {
+      isNum2 = true  
+    }
+
+    if(!isNum2) {
+      if(num1 === '') {
         if(display.value === '0') {
           display.value = e.target.textContent
           num1 += inputnNumber
@@ -24,44 +30,50 @@ numberButtons.forEach(button => button.addEventListener('click', function(e) {
             display.value = e.target.textContent
             num1 += inputnNumber
             isCalculated = false
-          }else {
-            display.value += e.target.textContent
-            num1 += inputnNumber
+          }     
         }
-     
+      }else {
+          display.value += e.target.textContent
+          num1 += inputnNumber
+        }
+      }
+   
+
+    if(isNum2){
+        if(num2 === '') {
+          display.value = e.target.textContent
+          num2 += inputnNumber
+       }else {
+          display.value += e.target.textContent
+          num2 += inputnNumber
+       }
+        
     }
-   }else {
-    if(num2 === '' || num2 === '-') {
-        display.value = e.target.textContent
-        num2 += inputnNumber
-    }else {
-        display.value += e.target.textContent
-        num2 += inputnNumber
-    }
-   }
+    
+
+
 
 }))
 
 operatorButtons.forEach(button => button.addEventListener('click', function(e) {
     let inputOperator = e.target.textContent
-    if(num1 === '') {
-        if(inputOperator === '-') {
-            display.value = e.target.textContent
-            num1 += inputOperator
-            isCalculated = false
-        }else return
-    }else {
-        if(operator === '') {
-            operator += inputOperator
-        }else {
-            if(num2 === '') {
-                if(inputOperator === '-') {
-                    display.value = e.target.textContent
-                    num2 += inputOperator
-                }
-            }
+    if(inputOperator === '-') {
+        if(num1 === '' && operator === '') {
+            num1 = '-'
+            display.value = '-'
+            return
+        }else if(operator !== '' && num2 === '') {
+            num2 = '-'
+            display.value = '-'
+            return
         }
     }
+
+    if(num1 !== '' && num1 !== '-') {
+        operator = inputOperator
+        return
+    }
+
 }))
 
 clearButton.addEventListener('click', function(e) {
@@ -88,13 +100,31 @@ equalButton.addEventListener('click', () => {
 decimalButton.addEventListener('click', function(e) {
     let currentValue = display.value
     let lastChar = currentValue.slice(-1)
+    let isNum2 = false
+    if(num1 !== '' && operator !== '') {
+        isNum2 = true
+    }
     if(operatorArray.includes(lastChar)) {
         return
     }
     if(isCalculated) {
         return
     }
-    display.value += e.target.textContent
+    if(currentValue.includes('.')) return
+    if(operator !== '' && num2 === '') return
+
+    if(!isNum2) {
+        num1 += e.target.textContent
+        display.value += e.target.textContent
+        currentValue = display.value
+    }
+
+    if(isNum2) {
+        num2 += e.target.textContent
+        display.value += e.target.textContent
+        currentValue = display.value
+    }
+    
 })
 
 percentButton.addEventListener('click', function(e) {

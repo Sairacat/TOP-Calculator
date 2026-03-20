@@ -6,6 +6,7 @@ const clearButton = document.querySelector('.clearButton')
 const equalButton = document.querySelector('.equal')
 const decimalButton = document.querySelector('.decimal')
 const percentButton = document.querySelector('.percent')
+const plusOrMinusButton = document.querySelector('.plusOrMinus')
 const operatorArray = ['+', '*', '/', '.']
 
 let isCalculated = false
@@ -15,39 +16,30 @@ let num2 = ''
 
 numberButtons.forEach(button => button.addEventListener('click', function(e) {
     let inputnNumber = e.target.textContent
-    let isNum2 = false
-    if(operator !== '' && num1 !== '') {
-      isNum2 = true  
+    let isNum2 = (operator !== '')
+    if(isCalculated && operator === '') {
+        num1 = ''
+        isCalculated = false
     }
 
+
     if(!isNum2) {
-      if(num1 === '') {
-        if(display.value === '0') {
-          display.value = e.target.textContent
-          num1 += inputnNumber
+        if(num1 === '' || num1 === '0') {
+            num1 = inputnNumber
         }else {
-          if(isCalculated) {
-            display.value = e.target.textContent
             num1 += inputnNumber
-            isCalculated = false
-          }     
         }
-      }else {
-          display.value += e.target.textContent
-          num1 += inputnNumber
-        }
+        display.value = num1
       }
    
 
     if(isNum2){
-        if(num2 === '') {
-          display.value = e.target.textContent
-          num2 += inputnNumber
-       }else {
-          display.value += e.target.textContent
-          num2 += inputnNumber
-       }
-        
+        if(num2 === '' || num2 ==='0') {
+            num2 = inputnNumber
+        }else {
+            num2 += inputnNumber
+        }
+        display.value = num2 
     }
     
 
@@ -90,9 +82,10 @@ equalButton.addEventListener('click', () => {
     let firstNum = Number(num1)
     let secondNum = Number(num2)
     let result = operate(operator,firstNum,secondNum)
+    let finalResult = parseFloat(result.toFixed(6)).toString()
     display.value = parseFloat(result.toFixed(6)).toString()
     operator = ''
-    num1 = ''
+    num1 = finalResult
     num2 = ''
     isCalculated = true
 })
@@ -147,19 +140,40 @@ decimalButton.addEventListener('click', function(e) {
 })
 
 percentButton.addEventListener('click', function(e) {
-    let currentValue = display.value
-    let lastChar = currentValue.slice(-1)
-    const currentArray = currentValue.split(/([\*\/\+-])/)
-    if(operatorArray.includes(lastChar)) {
-        return
+    let isNum2 = (operator !== '')
+    if(!isNum2) {
+        if(num1 === '' || num1 === '-') return
+        num1 = parseFloat((Number(num1) / 100).toFixed(6)).toString()
+        display.value = num1
     }
-    if(currentArray.length === 3) {
-        return
+    if(isNum2) {
+        if(num2 === '' || num2 === '-') return
+        num2 = parseFloat((Number(num2) / 100).toFixed(6)).toString()
+        display.value = num2
     }
-    num1 = Number(currentValue)
-    let result = num1 / 100
-    display.value = parseFloat(result.toFixed(6)).toString()
-    isCalculated = true
+})
+
+plusOrMinusButton.addEventListener('click', function(e) {
+    let isNum2 = (operator !== '')
+    if(!isNum2) {
+        if(num1 === '' || num1 === '0' || num1 === '-') return
+        if(num1[0] === '-') {
+            num1 = num1.slice(1)
+        }else{
+            num1 = '-' + num1
+        }
+        display.value = num1
+    }
+
+    if(isNum2) {
+        if(num2 === '' || num2 === '0' || num2 === '-') return
+        if(num2[0] === '-') {
+            num2 = num2.slice(1)
+        }else {
+            num2 = '-' + num2
+        }
+        display.value = num2
+    }
 })
 
 

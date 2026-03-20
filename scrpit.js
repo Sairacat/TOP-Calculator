@@ -6,7 +6,7 @@ const clearButton = document.querySelector('.clearButton')
 const equalButton = document.querySelector('.equal')
 const decimalButton = document.querySelector('.decimal')
 const percentButton = document.querySelector('.percent')
-const operatorArray = ['+', '-', '*', '/', '.']
+const operatorArray = ['+', '*', '/', '.']
 
 let isCalculated = false
 let operator = ''
@@ -98,31 +98,50 @@ equalButton.addEventListener('click', () => {
 })
 
 decimalButton.addEventListener('click', function(e) {
+    let dot = e.target.textContent
     let currentValue = display.value
     let lastChar = currentValue.slice(-1)
     let isNum2 = false
     if(num1 !== '' && operator !== '') {
         isNum2 = true
     }
+    
+    if(isNum2 && num2 === '') {
+        currentValue = ''
+    }
+
     if(operatorArray.includes(lastChar)) {
         return
+    
     }
     if(isCalculated) {
         return
     }
+
     if(currentValue.includes('.')) return
-    if(operator !== '' && num2 === '') return
 
     if(!isNum2) {
-        num1 += e.target.textContent
-        display.value += e.target.textContent
-        currentValue = display.value
+        if(num1 === '' || num1 === '-') {
+            num1 += '0.'
+            display.value = num1
+            currentValue = display.value
+        }else {
+            num1 += e.target.textContent
+            display.value += dot
+            currentValue = display.value
+        }
     }
 
     if(isNum2) {
-        num2 += e.target.textContent
-        display.value += e.target.textContent
-        currentValue = display.value
+        if(num2 === '' || num2 === '-') {
+            num2 += '0.'
+            display.value = num2
+            currentValue = display.value
+        }else {
+            num2 += e.target.textContent
+            display.value += dot
+            currentValue = display.value
+        }
     }
     
 })

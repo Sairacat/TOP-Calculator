@@ -61,21 +61,36 @@ body {
 .input {
     width: calc(25% - 15px);
     aspect-ratio: 1 / 1;
-    border: 2px solid black;
     box-sizing: border-box;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 30px;
+    background-color: gray;
+    color: white;
 
 }
 
-.zero {
+.operator,
+.equal {
+    background-color: orange;
+    color: white;
+    border: none;
+}
+
+.clearButton,
+.plusOrMinus,
+.percent {
+    background-color: slategray;
+}
+
+
+/*.zero {
     width: calc(50% - 15px);
     height: calc(25cqw - 15px);
     border-radius: 999px;
-}
+}*/
 
 
 
@@ -84,11 +99,17 @@ body {
 
 
 
-.changeColor {
+.changeOpacity {
     transition: all 0.3s ease;
 }
 
-.changeColor:hover {
-    background-color: gray;
+.changeOpacity:hover {
+    opacity: 0.5;
     cursor: pointer;
+}
+
+.activated {
+    transition: all 0.3s ease;
+    background-color: greenyellow;
+    color: white;
 }

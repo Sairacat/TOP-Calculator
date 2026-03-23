@@ -11,7 +11,7 @@ const backspaceButton = document.querySelector('.backspace')
 
 let isCalculated = false
 let operator = ''
-let num1 = ''
+let num1 = '0'
 let num2 = ''
 buttons.forEach(button => button.classList.add('changeOpacity'))
 
@@ -19,13 +19,13 @@ numberButtons.forEach(button => button.addEventListener('click', function(e) {
     let inputnNumber = e.target.textContent
     let isNum2 = (operator !== '')
     if(isCalculated && operator === '') {
-        num1 = ''
+        num1 = '0'
         isCalculated = false
     }
 
 
     if(!isNum2) {
-        if(num1 === '' || num1 === '0') {
+        if(num1 === '0') {
             num1 = inputnNumber
         }else {
             num1 += inputnNumber
@@ -93,7 +93,7 @@ operatorButtons.forEach(button => button.addEventListener('click', function(e) {
 clearButton.addEventListener('click', function(e) {
     display.value = '0'
     operator = ''
-    num1 = ''
+    num1 = '0'
     num2 = ''
     operatorButtons.forEach(button => button.classList.remove('activated'))
     isCalculated = false
@@ -101,6 +101,7 @@ clearButton.addEventListener('click', function(e) {
 
 
 equalButton.addEventListener('click', () => {
+    if(num2 === '') return
     let firstNum = Number(num1)
     let secondNum = Number(num2)
 
@@ -136,8 +137,8 @@ decimalButton.addEventListener('click', function(e) {
     if(currentValue.includes('.')) return
 
     if(!isNum2) {
-        if(num1 === '') {
-            num1 += '0.'
+        if(num1 === '0') {
+            num1 = '0.'
             display.value = num1
             currentValue = display.value
         }else {
@@ -178,7 +179,7 @@ percentButton.addEventListener('click', function(e) {
 plusOrMinusButton.addEventListener('click', function(e) {
     let isNum2 = (operator !== '')
     if(!isNum2) {
-        if(num1 === '' || num1 === '0') return
+        if(num1 === '0') return
         if(num1[0] === '-') {
             num1 = num1.slice(1)
         }else{
@@ -203,7 +204,7 @@ backspaceButton.addEventListener('click', function(e) {
     let isNum2 = (operator !== '')
 
     if(!isNum2) {
-        if(num1 === '' || num1 === '0') return
+        if(num1 === '0') return
         if(num1.length === 1) {
             num1 = '0'
             display.value = '0'

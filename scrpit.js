@@ -53,7 +53,7 @@ operatorButtons.forEach(button => button.addEventListener('click', function(e) {
     let canBeCalculated = (num2 !== '')
     
 
-    if(num1 !== '' && !canBeCalculated) {
+    if(!canBeCalculated) {
         operatorButtons.forEach(button => button.classList.remove('activated'))
         let isActivated = e.target.classList.contains('activated')
         if(!isActivated) {
@@ -149,7 +149,7 @@ decimalButton.addEventListener('click', function(e) {
     }
 
     if(isNum2) {
-        if(num2 === '') {
+        if(num2 === '' || num2 === '0') {
             num2 += '0.'
             display.value = num2
             currentValue = display.value
@@ -234,6 +234,115 @@ backspaceButton.addEventListener('click', function(e) {
         }
         num2 = num2.slice(0, num2.length - 1)
         display.value = num2
+    }
+})
+
+window.addEventListener('keydown', function(e) {
+    const key = e.key
+    if(/[0-9]/.test(key)) {
+        let isNum2 = (operator !== '')
+        if(isCalculated && operator === ''){
+            num1 = '0'
+            isCalculated = false
+        }
+
+        if(!isNum2) {
+            if(num1 === '0') {
+                num1 = key
+            }else {
+                num1 += key
+            }
+            display.value = num1
+        }
+
+        if(isNum2) {
+            if(num2 === '0' || num2 === '') {
+                num2 = key
+            }else {
+                num2 += key
+            }
+            display.value = num2
+        }
+    }
+
+    if(key === 'Enter') {
+       if(num2 === '') return
+       let firstNum = Number(num1)
+       let secondNum = Number(num2)
+
+       if(num2 === '0' && operator === '/') {
+           display.value = 'Error'
+           return
+       }
+
+       operatorButtons.forEach(button => button.classList.remove('activated'))
+
+       let result = operate(operator,firstNum,secondNum)
+       let finalResult = parseFloat(result.toFixed(6)).toString()
+       display.value = parseFloat(result.toFixed(6)).toString()
+       operator = ''
+       num1 = finalResult
+       num2 = ''
+       isCalculated = true 
+    }
+
+    if(key === 'Backspace') {
+        if(isCalculated) return
+        let isNum2 = (operator !== '')
+
+        if(!isNum2) {
+           if(num1 === '0') return
+           if(num1.length === 1) {
+               num1 = '0'
+               display.value = '0'
+               return
+           }
+        if(num1.length === 2 && num1.startsWith('-')) {
+            num1 = '0'
+            display.value = '0'
+            return
+        }
+        
+        num1 = num1.slice(0, num1.length - 1)
+        display.value = num1
+    }
+    }
+
+    if(key === '.') {
+        let dot = key
+        let currentValue = display.value
+        let isNum2 = (operator !== '')
+
+        if(isNum2 && num2 === '') {
+            currentValue = ''
+        }
+
+        if(isCalculated) return
+
+        if(currentValue.includes('.')) return
+
+        if(!isNum2) {
+            if(num1 === '0') {
+                num1 = '0.'
+                display.value = num1
+            }else {
+                num1 += dot
+                display.value = num1
+            }
+            currentValue = display.value
+        }
+
+        if(isNum2) {
+            if(num2 === '0' || num2 === '') {
+                num2 = '0.'
+                display.value = num2
+            }else {
+                num2 += dot
+                display.value = num2
+            }
+            currentValue = display.value
+        }
+
     }
 })
 
